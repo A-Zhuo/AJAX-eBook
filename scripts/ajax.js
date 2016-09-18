@@ -1,4 +1,4 @@
-window.onload=function ()
+window.onload=function () 
 {
 	var oBtn=document.getElementById('btn1');
 	var oUl = document.getElementById("list");
@@ -12,35 +12,34 @@ window.onload=function ()
 		}
 	}
 	function showText() {
-			var oAjax = null;
-			if(window.XMLHttpRequest)
+		var oAjax = null;
+		if(window.XMLHttpRequest)
+		{
+			oAjax=new XMLHttpRequest();
+		}
+		else
+		{
+			oAjax=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		oAjax.open('GET',"pages/" + url + ".txt?time=new Date().getTime()", true);
+		oAjax.send(null);
+		oAjax.onreadystatechange=function ()
+		{
+			if(oAjax.readyState==4)
 			{
-				oAjax=new XMLHttpRequest();
-			}
-			else
-			{
-				oAjax=new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			oAjax.open('GET',"pages/" + url + ".txt?time=new Date().getTime()", true);
-			oAjax.send(null);
-			
-			oAjax.onreadystatechange=function ()
-			{
-				if(oAjax.readyState==4)
+				if(oAjax.status==200)
 				{
-					if(oAjax.status==200)
-					{
-						var text = oAjax.responseText;
-						var pos = text.indexOf("&");
-						var title = text.slice(0,pos);
-						var chapter = text.slice(pos+1);
-						content.innerHTML =oAjax.responseText;
-					}
-					else
-					{
-						content.innerHTML = '您要的文章不见鸟';
-					}
+					var text = oAjax.responseText;
+					var pos = text.indexOf("&");
+					var title = text.slice(0,pos);
+					var chapter = text.slice(pos+1);
+					content.innerHTML =oAjax.responseText;
 				}
-			}			
+				else
+				{
+					content.innerHTML = '您要的文章不见鸟';
+				}
+			}
+		}			
 	}
 }
